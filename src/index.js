@@ -1,21 +1,29 @@
+import { createStore } from "redux";
+
 const $add = document.querySelector("#add");
 const $minus = document.querySelector("#minus");
 const $number = document.querySelector("#number");
 
-let number = 0;
-
-$number.innerHTML = number;
-
-const updateNumber = () => {
-  $number.innerHTML = number;
+const numberModify = (number = 0, action) => {
+  console.log(action);
+  if (action.type === "ADD") {
+    return number + 1;
+  } else if (action.type === "MINUS") {
+    return number - 1;
+  }
+  return number;
 };
 
+const numberStore = createStore(numberModify);
+
+numberStore.subscribe(() => {
+  $number.innerHTML = numberStore.getState();
+});
+
 $add.addEventListener("click", () => {
-  number = number + 1;
-  updateNumber();
+  numberStore.dispatch({ type: "ADD" });
 });
 
 $minus.addEventListener("click", () => {
-  number = number - 1;
-  updateNumber();
+  numberStore.dispatch({ type: "MINUS" });
 });
