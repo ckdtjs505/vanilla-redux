@@ -4,14 +4,19 @@ const $add = document.querySelector("#add");
 const $minus = document.querySelector("#minus");
 const $number = document.querySelector("#number");
 
+const ADD = "ADD";
+const MINUS = "MINUS";
+
 const numberModify = (number = 0, action) => {
   console.log(action);
-  if (action.type === "ADD") {
-    return number + 1;
-  } else if (action.type === "MINUS") {
-    return number - 1;
+  switch (action.type) {
+    case ADD:
+      return number + 1;
+    case MINUS:
+      return number - 1;
+    default:
+      return number;
   }
-  return number;
 };
 
 const numberStore = createStore(numberModify);
@@ -21,9 +26,9 @@ numberStore.subscribe(() => {
 });
 
 $add.addEventListener("click", () => {
-  numberStore.dispatch({ type: "ADD" });
+  numberStore.dispatch({ type: ADD });
 });
 
 $minus.addEventListener("click", () => {
-  numberStore.dispatch({ type: "MINUS" });
+  numberStore.dispatch({ type: MINUS });
 });
